@@ -1,0 +1,81 @@
+<h1 class="heading-7 pb-2">{{ title }}</h1>
+
+@if (addAddress) {
+  <form class="mt-4">
+    <div class="row">
+      <div class="col-2">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="inputName" [formControl]="form.controls.cep" mask="00000-000">
+          <label for="inputName">Cep:</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-floating mb-3 disabled">
+          <input type="text" class="form-control" id="inputName" [formControl]="form.controls.street">
+          <label for="inputName">Rua:</label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-floating mb-3 disabled">
+          <input type="text" class="form-control" id="inputEmail" [formControl]="form.controls.neighborhood">
+          <label for="inputBirthDate">Bairro:</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-floating mb-3 disabled">
+          <input type="text" class="form-control" id="inputName" [formControl]="form.controls.city">
+          <label for="inputName">Cidade:</label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-floating mb-3 disabled">
+          <input type="text" class="form-control" id="inputEmail" [formControl]="form.controls.state">
+          <label for="inputBirthDate">Estado:</label>
+        </div>
+      </div>
+    </div>
+  </form>
+
+} @else {
+  @for(address of addresses; track address.id) {
+    <div class="row mt-4">
+        <div class="col">
+          <p><strong>CEP: </strong>{{ address.cep }}</p>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p><strong>RUA: </strong>{{ address.street}} <strong>BAIRRO: </strong> {{ address.neighborhood}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p> <strong>CIDADE: </strong>{{address.city}} <strong>ESTADO: </strong>{{address.state}}</p>
+      </div>
+    </div>
+  }
+
+}
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
+  <button class="btn btn-primary paragraph-4 me-md-2" type="button" (click)="returnPageList()">VOLTAR</button>
+  <button class="btn btn-primary paragraph-4" type="button" (click)="createBodyAddress()">{{ addAddress ? 'SALVAR' : 'ADICIONAR' }}</button>
+</div>
+
+<ng-template #modalCreateUpdate let-c="close" let-d="dismiss">
+	<div class="modal-body d-flex flex-column align-items-center justify-content-center">
+    <div class="mb-1">
+      <i class="display-3 bi" [ngClass]="modal.modalIcon"></i>
+    </div>
+    <div class="body-text paragraph-4 mt-2">
+      <p [innerHTML]="modal.modalMsg"></p>
+    </div>
+    <div>
+      <button type="button" class="btn btn-primary paragraph-4" (click)="closeModal()">OK</button>
+    </div>
+	</div>
+</ng-template>

@@ -1,0 +1,95 @@
+<form>
+	<div class="d-flex align-items-center justify-content-between mt-4 pb-3">
+		<div class="form-floating d-flex">
+			<input type="text" class="form-control" id="inputName" name="searchTermName"
+				[(ngModel)]="customerService.searchTermName">
+			<span class="input-group-text" id="basic-search-name"><i class="bi bi-search"></i></span>
+			<label for="inputName">Nome Cliente:</label>
+		</div>
+		<div class="form-floating d-flex">
+			<input type="text" class="form-control" id="inputEmail" name="searchTermEmail"
+				[(ngModel)]="customerService.searchTermEmail">
+			<span class="input-group-text" id="basic-search-cpf"><i class="bi bi-search"></i></span>
+			<label for="inputEmail">Email:</label>
+		</div>
+		<div class="form-floating d-flex">
+			<select class="form-select" name="searchTermGender" [(ngModel)]="customerService.searchTermGender">
+				<option ngValue="M">Masculino</option>
+				<option ngValue="F">Feminino</option>
+			</select>
+			<label for="inputGender">Gênero:</label>
+		</div>
+		<div>
+			<button type="button" class="btn btn-primary paragraph-4" (click)="addClient()">ADICIONAR CLIENTE</button>
+		</div>
+	</div>
+	@if (customerService.loading$ | async) {
+	<span class="col col-form-label">Loading...</span>
+	}
+
+	<table class="table table-striped mt-4">
+		<thead>
+			<tr>
+				<th scope="col">NOME</th>
+				<th scope="col">EMAIL</th>
+				<th scope="col">GENERO</th>
+				<th scope="col" class="text-center">ENDERECO</th>
+				<th scope="col">AÇÔES</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for (item of customers$ | async; track item.id) {
+			<tr>
+				<td>{{ item.name }}</td>
+				<td>{{ item.email }}</td>
+				<td>{{ item.gender }}</td>
+				<td class="text-center p-1">
+					@if (item.addresses?.length) {
+					<button type="button" class="btn btn-primary paragraph-4"
+						(click)="viewDetailsAddress(item.id)">VISUALIZAR</button>
+					} @else {
+					<button type="button" class="btn btn-primary paragraph-4"
+						(click)="viewDetailsAddress(item.id)">ADICIONAR</button>
+					}
+				</td>
+				<td>
+					<a class="me-3" alt="VISUALIZAR" (click)="viewDetails(item.id)"><i class="heading-7 bi-eye"></i></a>
+					<a alt="EXCLUIR" (click)="verifyDelete(item.id || 0)"><i class="heading-7 bi-trash3"></i></a>
+				</td>
+			</tr>
+			} @empty {
+			<tr>
+				<td colspan="4" style="text-align: center">NÂO FORAM ENCONTRADOS CLIENTES PARA EXIBIR</td>
+			</tr>
+			}
+		</tbody>
+	</table>
+
+	<div class="d-flex justify-content-between p-2">
+		<ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="customerService.page"
+			[pageSize]="customerService.pageSize">
+		</ngb-pagination>
+
+		<select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="customerService.pageSize">
+			<option [ngValue]="5">5 ITENS POR PÁGINA</option>
+			<option [ngValue]="10">10 ITENS POR PÁGINA</option>
+		</select>
+	</div>
+</form>
+
+<ng-template #modalDelete let-c="close" let-d="dismiss">
+	<div class="modal-body d-flex flex-column align-items-center justify-content-center">
+		<div class="mb-1">
+			<i class="display-3 bi" [ngClass]="modal.modalIcon"></i>
+		</div>
+		<div class="body-text paragraph-4 mt-2">
+			<p [innerHTML]="modal.modalMsg"></p>
+		</div>
+		<div>
+			<button *ngIf="modal.step == 1" type="button" class="btn btn-primary paragraph-4 me-3"
+				(click)="d()">VOLTAR</button>
+			<button type="button" class="btn btn-primary paragraph-4" (click)="confirmBtnModal()">{{ modal.step == 1 ?
+				'SIM' : 'OK' }}</button>
+		</div>
+	</div>
+</ng-template>

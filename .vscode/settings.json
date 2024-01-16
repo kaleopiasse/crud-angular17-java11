@@ -1,0 +1,10 @@
+{
+    "[typescript, html, json]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": true,
+        "editor.trimAutoWhitespace": true,
+        "editor.indentSize": "tabSize",
+        "editor.tabSize": 2
+    },
+    "java.compile.nullAnalysis.mode": "automatic"
+}

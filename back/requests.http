@@ -1,0 +1,50 @@
+###
+http://localhost:9000/api/customers
+
+###
+http://localhost:9000/api/customers/?size=3&page=1
+
+###
+http://localhost:9000/api/customers/search?name=Gamora&email=null&gender=null&state=null&city=null
+
+###
+POST http://localhost:9000/api/customers
+content-type: application/json
+
+{
+    "name": "Ferro",
+    "email": "homemdeferro@vingadores.com",
+    "gender": "M"
+}
+
+###
+DELETE  http://localhost:9000/api/customers/1
+
+###
+PUT http://localhost:9000/api/customers/6
+content-type: application/json
+
+{
+    "name": "Man of Steel",
+    "email": "homemdeferro@vingadores.com",
+    "gender": "M"
+}
+
+###
+POST http://localhost:9000/api/customers/2/addresses
+content-type: application/json
+
+{
+    "cep": "13575008",
+    "street": "Rua Coronel Domingos Marino de Azevedo",
+    "neighborhood": "Vila Boa Vista 1",
+    "city": "São Carlos",
+    "state": "SP"
+}
+
+###
+GET http://localhost:9000/api/customers/2/addresses
+
+
+###
+http://localhost:9000/api/customers/search?name=Ga&email=null&gender=null&city=null&state=null
